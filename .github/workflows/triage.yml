@@ -1,0 +1,42 @@
+# 反馈一进来：按正文打标签（bug / enhancement / 版本号 / 来自程序），回一句「收到」；描述太短就请人补充。
+# 正文格式是程序拼的（backend/feedback.go）：### 类型 / ### 发生了什么 / ### 环境（版本 0.1.x · …）/ 反馈编号 fb-xxxxxxxx。
+# 在网页上用 issue 模板提的也是同样的小标题。公开仓库跑 Actions 不花钱。
+name: triage
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || "";
+            const kind = (body.match(/###\s*类型\s*\n+([^\n]+)/) || [])[1] || "";
+            const labels = [/新功能/.test(kind) ? "enhancement" : "bug"];
+            const ver = (body.match(/版本\s*v?(\d+\.\d+\.\d+(?:-dev)?)/) || [])[1];
+            if (ver) labels.push(`v${ver}`);
+            if (/反馈编号 fb-[0-9a-f]{8}/.test(body)) labels.push("来自程序");
+
+            const colors = { bug: "d73a4a", enhancement: "a2eeef", "来自程序": "5319e7" };
+            for (const name of labels) {
+              try {
+                await github.rest.issues.getLabel({ ...context.repo, name });
+              } catch {
+                await github.rest.issues.createLabel({ ...context.repo, name, color: colors[name] || "ededed" }).catch(() => {});
+              }
+            }
+            await github.rest.issues.addLabels({ ...context.repo, issue_number: context.issue.number, labels });
+
+            const what = ((body.match(/###\s*(?:发生了什么|想要什么功能)[^\n]*\n+([\s\S]*?)(?:\n###|<!--|$)/) || [])[1] || "").trim();
+            let text = `收到，已标记为 ${labels.map((l) => "`" + l + "`").join(" ")}。修好后会在这里回复并关闭，程序会自动更新到修好的版本。`;
+            if (what.length < 10) {
+              text += "\n\n描述有点短：能再说说是第几路、点了什么、看到了什么报错吗？有截图的话直接粘贴进来。";
+            }
+            await github.rest.issues.createComment({ ...context.repo, issue_number: context.issue.number, body: text });

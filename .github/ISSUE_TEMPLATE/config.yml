@@ -1,0 +1,2 @@
+# 必须留着空白 issue：程序打开的是带 title / body 的 /issues/new 预填页，关掉空白 issue 会被跳到模板选择页，预填就丢了。
+blank_issues_enabled: true

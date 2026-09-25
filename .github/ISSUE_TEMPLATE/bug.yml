@@ -1,0 +1,23 @@
+name: 出问题了
+description: 生图小霸王哪里不对劲（最省事的是在程序里点「反馈这个问题」，会自动带上版本和日志）
+labels: [bug]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 类型
+      options: [出问题了]
+      default: 0
+  - type: textarea
+    id: what
+    attributes:
+      label: 发生了什么
+      placeholder: 第几路、点了什么、看到了什么报错。截图直接粘贴进来。
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: 环境
+      description: 程序顶栏右上角的版本号，和你的系统
+      placeholder: 版本 0.1.8 · Windows 11 · 桌面版

@@ -1,0 +1,17 @@
+name: 想要新功能
+description: 希望生图小霸王能做什么
+labels: [enhancement]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 类型
+      options: [想要新功能]
+      default: 0
+  - type: textarea
+    id: what
+    attributes:
+      label: 想要什么功能
+      placeholder: 比如：想一次给十张图去背景
+    validations:
+      required: true
