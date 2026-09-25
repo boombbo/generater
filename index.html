@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generater 使用说明</title>
+<meta name="description" content="生图小霸王（Generater）怎么装、怎么用、文件在哪、出问题怎么办。">
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1d2129; --muted: #6b7280; --line: #e5e7eb; --soft: #f5f6f8;
+    --accent: #0b7bd6; --warn-bg: #fff7e6; --warn-line: #f0b44c; --key-bg: #eef1f5; --key-line: #cfd5de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15171c; --fg: #e8eaef; --muted: #a3a9b6; --line: #2a2f3a; --soft: #1c1e24;
+      --accent: #5fc9f3; --warn-bg: #2a2416; --warn-line: #b9862f; --key-bg: #252830; --key-line: #3a3f4b;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.7 system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif; }
+  a { color: var(--accent); }
+  header { border-bottom: 1px solid var(--line); background: var(--soft); }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+  header .wrap { padding-top: 36px; padding-bottom: 28px; }
+  header h1 { margin: 0 0 6px; font-size: 32px; line-height: 1.2; }
+  header h1 small { font-size: 18px; font-weight: 400; color: var(--muted); margin-left: 10px; }
+  header p { margin: 0 0 18px; color: var(--muted); }
+  .dl { display: inline-block; padding: 10px 18px; border-radius: 8px; background: var(--accent); color: #fff; font-weight: 600; text-decoration: none; }
+  @media (prefers-color-scheme: dark) { .dl { color: #062331; } }
+  .dl + a { margin-left: 14px; }
+  nav { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+  nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 2px 18px; }
+  nav a { display: block; padding: 10px 0; color: var(--fg); text-decoration: none; font-size: 15px; }
+  nav a:hover { color: var(--accent); }
+  main .wrap { padding-bottom: 60px; }
+  section { padding-top: 36px; border-bottom: 1px solid var(--line); padding-bottom: 28px; }
+  section:last-child { border-bottom: 0; }
+  h2 { font-size: 24px; margin: 0 0 14px; }
+  h2 span { display: inline-block; min-width: 32px; height: 32px; line-height: 32px; text-align: center; border-radius: 8px; background: var(--accent); color: #fff; font-size: 16px; margin-right: 10px; vertical-align: 3px; }
+  @media (prefers-color-scheme: dark) { h2 span { color: #062331; } }
+  h3 { font-size: 18px; margin: 22px 0 8px; }
+  p, li { margin: 6px 0; }
+  ul, ol { padding-left: 22px; }
+  kbd { display: inline-block; padding: 0 7px; border: 1px solid var(--key-line); border-bottom-width: 2px; border-radius: 6px; background: var(--key-bg); font: inherit; font-size: 14px; line-height: 1.5; white-space: nowrap; }
+  code { padding: 1px 5px; border-radius: 4px; background: var(--key-bg); font-size: 14px; }
+  .steps { list-style: none; padding: 0; margin: 12px 0; counter-reset: s; }
+  .steps li { position: relative; padding: 10px 0 10px 52px; counter-increment: s; border-top: 1px solid var(--line); }
+  .steps li:first-child { border-top: 0; }
+  .steps li::before { content: counter(s); position: absolute; left: 0; top: 10px; width: 36px; height: 36px; line-height: 36px; text-align: center; border-radius: 50%; background: var(--soft); border: 1px solid var(--line); font-weight: 700; }
+  .note { margin: 14px 0; padding: 10px 14px; border-left: 4px solid var(--warn-line); background: var(--warn-bg); border-radius: 0 8px 8px 0; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-top: 1px solid var(--line); }
+  th { background: var(--soft); border-top: 0; font-weight: 600; white-space: nowrap; }
+  td:first-child { white-space: nowrap; }
+  figure { margin: 18px 0; }
+  figure img { display: block; width: 100%; border: 1px solid var(--line); border-radius: 10px; }
+  figcaption { color: var(--muted); font-size: 14px; margin-top: 6px; }
+  .layout { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 8px; margin: 12px 0; }
+  .layout div { padding: 12px; border: 1px dashed var(--line); border-radius: 8px; background: var(--soft); font-size: 14px; }
+  .layout b { display: block; margin-bottom: 4px; }
+  footer { color: var(--muted); font-size: 14px; padding: 20px 0 40px; text-align: center; }
+  @media (max-width: 640px) { .layout { grid-template-columns: 1fr; } header h1 small { display: block; margin: 4px 0 0; } td:first-child { white-space: normal; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Generater <small>生图小霸王 · 使用说明</small></h1>
+    <p>Windows 桌面程序，下载双击就用。多路同时出图、参考图、AI 预设工具、图像编辑，全在一个窗口里。</p>
+    <a class="dl" href="https://github.com/boombbo/generater/releases/latest/download/imagegen-desktop_windows_amd64.exe">下载最新版（Windows 10 / 11）</a>
+    <a href="https://github.com/boombbo/generater/releases">全部版本</a>
+    <a href="https://github.com/boombbo/generater/issues/new/choose">反馈问题</a>
+  </div>
+</header>
+<nav><div class="wrap"><ol>
+  <li><a href="#install">安装</a></li>
+  <li><a href="#first">第一次打开</a></li>
+  <li><a href="#gen">出图</a></li>
+  <li><a href="#tools">工具窗口</a></li>
+  <li><a href="#files">文件在哪</a></li>
+  <li><a href="#update">更新</a></li>
+  <li><a href="#feedback">反馈</a></li>
+  <li><a href="#faq">常见问题</a></li>
+</ol></div></nav>
+
+<main><div class="wrap">
+
+<section id="install">
+  <h2><span>1</span>安装</h2>
+  <ol class="steps">
+    <li>下载 <code>imagegen-desktop_windows_amd64.exe</code>，放到任意文件夹（桌面、D 盘都行，别放在会被清理的临时目录）。</li>
+    <li>双击运行。Windows 弹「已保护你的电脑」→ 点 <kbd>更多信息</kbd> → <kbd>仍要运行</kbd>。程序没有买签名，第一次会这样，以后不会再问。</li>
+    <li>窗口打开就装好了。没有安装向导，不写注册表；不想用了，删掉 exe 和旁边生成的几个文件就行。</li>
+  </ol>
+  <p>用之前要有一把 <b>API Key</b>：兼容 OpenAI 接口的 Key 都行。接口地址默认是 <code>api.xxiaozhi.com</code>，也可以换成你自己的代理。</p>
+  <div class="note">窗口看起来像普通浏览器页面、或者用 Edge 打开的：说明电脑上没有「WebView2 运行时」。功能一样能用；想要原生窗口，装上 WebView2 运行时后重新打开程序。</div>
+</section>
+
+<section id="first">
+  <h2><span>2</span>第一次打开：顶栏</h2>
+  <figure><img src="docs/main.png" alt="主界面"><figcaption>顶栏从左到右：Key、接口地址、获取模型、模式、全部一起生成、保存到、版本号。下面每一路一个窗口。</figcaption></figure>
+  <table>
+    <tr><th>位置</th><th>是什么</th></tr>
+    <tr><td><kbd>key</kbd></td><td>填 API Key。填过的会记在下拉里，下次直接选；<kbd>显示</kbd> 看明文。Key 只存在程序自己的数据区，不上传到别处。</td></tr>
+    <tr><td><kbd>base</kbd></td><td>接口地址。带不带 <code>/v1</code> 都行，程序自己处理；不小心粘贴了完整的 <code>…/v1/chat/completions</code> 也会自动裁成根地址。</td></tr>
+    <tr><td><kbd>获取模型</kbd></td><td>用这把 Key 去接口拉一次模型列表：既是检查 Key 和地址填没填对，也是刷新每一路的「模型」下拉。</td></tr>
+    <tr><td>模式</td><td><b>异步 · 提交后轮询</b>（默认）：提交后程序自己等结果。<b>同步 · 等待直接返回</b>：接口直接回图。一般不用改。</td></tr>
+    <tr><td><kbd>全部一起生成</kbd></td><td>所有路一起提交。</td></tr>
+    <tr><td><kbd>保存到 …</kbd></td><td>出的图存在哪。点开可以看、改（弹出文件夹选择）、打开这个文件夹。</td></tr>
+    <tr><td>版本号</td><td>当前版本。有新版时会亮，点开看更新内容，见 <a href="#update">更新</a>。没填 Key 时这里旁边会有红色的「缺少 Key」。</td></tr>
+  </table>
+</section>
+
+<section id="gen">
+  <h2><span>3</span>出图</h2>
+  <h3>路数</h3>
+  <p>一路 = 一个独立的出图窗口，各有自己的提示词、参考图、比例、模型。<kbd>新增生图窗口</kbd> / <kbd>删除末路窗口</kbd> 加减，或者直接在「窗口数」里选（1–18 路），下次打开还是这个路数。<kbd>清空全部窗口</kbd> 把所有路的提示词、参考图、结果一起清掉。</p>
+  <h3>每一路里</h3>
+  <table>
+    <tr><th>位置</th><th>怎么用</th></tr>
+    <tr><td>提示词</td><td>写你要的画面。在框里按 <kbd>Enter</kbd> 直接发送这一路，<kbd>Shift</kbd>+<kbd>Enter</kbd> 换行。</td></tr>
+    <tr><td><kbd>常用</kbd></td><td>常用片段：把选中的一句话存起来，下次一键插回来。</td></tr>
+    <tr><td>参考图</td><td>每路最多 4 张，点格子上传，也可以粘贴或把图拖进去。<kbd>清空</kbd> 清掉这一路的参考图。</td></tr>
+    <tr><td>比例 / 模型</td><td>比例默认「自动」；模型从 <kbd>获取模型</kbd> 拉回来的列表里选。</td></tr>
+    <tr><td><kbd>本路生成</kbd></td><td>只提交这一路，排进队列按顺序执行；别的路不受影响。</td></tr>
+    <tr><td><kbd>同步设置</kbd></td><td>把这一路的比例、模型、参考图刷给其他所有路，省得逐路点一遍。</td></tr>
+    <tr><td><kbd>工具</kbd></td><td>打开工具窗口，见下一节。</td></tr>
+  </table>
+  <h3>存档</h3>
+  <p><kbd>存档</kbd> 把整套现场（所有路的提示词、参考图、比例、模型、路数）存成一份，随时切回来；也能导出成 JSON 文件、从文件导入（同名的不覆盖，会另起名字）。</p>
+  <h3>出错了</h3>
+  <p>某一路失败时，结果区会显示报错原文，旁边有 <kbd>反馈这个问题</kbd>，见 <a href="#feedback">反馈</a>。常见报错怎么看，见 <a href="#faq">常见问题</a>。</p>
+</section>
+
+<section id="tools">
+  <h2><span>4</span>工具窗口</h2>
+  <p>每一路的 <kbd>工具</kbd> 按钮打开的是同一个窗口。<b>窗口里的图只在窗口里</b>：上传、粘贴、拖进来的图不会进任何一路的参考图，只有你点「用这张」才会。</p>
+  <figure><img src="docs/tools.png" alt="工具窗口"><figcaption>左边是工具，中间是当前这张图，右边放图和历史。</figcaption></figure>
+  <div class="layout">
+    <div><b>左：工具</b>AI 预设按分类列出；下面是图像编辑的入口。</div>
+    <div><b>中：当前图</b>大图预览。做完的结果可以按住拖动对比前后。<kbd>用这张 ▾</kbd>：放进第 N 路参考图 / 打开所在文件夹 / 从窗口移除（文件不删）。</div>
+    <div><b>右：放图和历史</b>上传（也能 <kbd>Ctrl</kbd>+<kbd>V</kbd> 粘贴、拖进来）、从各路拿一份；每次的结果都排在这里，点哪张就切到哪张。</div>
+  </div>
+  <h3>AI 预设（按次计费，要 Key）</h3>
+  <ol class="steps">
+    <li>左边点一个预设。窗口会按预设的要求出现 1–4 个图格，每格写明放什么，比如「上传人物的图像」。</li>
+    <li>把图按顺序放进格子（从右边的历史里点，或者直接上传）。</li>
+    <li>点 <kbd>开始生成</kbd>。结果进右边的历史、自动存到保存目录，可以接着做下一个工具。</li>
+  </ol>
+  <h3>图像编辑（本机做，不花钱、不要 Key）</h3>
+  <p>先在右边点一张图，再点一个编辑卡片，就打开编辑器：</p>
+  <table>
+    <tr><th>卡片</th><th>能做什么</th></tr>
+    <tr><td>裁剪</td><td>自定义 / 原图 / 16:9 / 9:16 / 3:4 / 4:3 / 1:1，拖框选范围</td></tr>
+    <tr><td>旋转 / 翻转</td><td>任意角度，左右 / 上下翻转</td></tr>
+    <tr><td>改尺寸</td><td>直接填宽高像素，可锁定比例</td></tr>
+    <tr><td>调色</td><td>亮度、对比度、色相、饱和度、色温、模糊</td></tr>
+    <tr><td>滤镜</td><td>一键换风格</td></tr>
+    <tr><td>标注</td><td>文字、画笔、箭头、方框等</td></tr>
+  </table>
+  <p>编辑器上方是 <kbd>取消</kbd> / <kbd>保存</kbd> / <kbd>×</kbd>。<b>保存 = 出一张新图</b>进历史、存成「编辑_时间.png」，原图不动；取消什么都不存。编辑器里随时能切到别的页签，不用先关掉。</p>
+  <div class="note">窗口里的图只在内存里，程序关了就没了；但每个结果都已经存成文件，在保存目录的「图片」里。</div>
+</section>
+
+<section id="files">
+  <h2><span>5</span>文件在哪</h2>
+  <table>
+    <tr><th>什么</th><th>在哪</th></tr>
+    <tr><td>出的图、视频、存档、片段</td><td>默认 <code>桌面\babaai</code>，按分类分 <code>图片\ 视频\ 存档\ 片段\</code>。文件名 = 提示词前 16 个字_时间，比如 <code>罗盘挂绳单手拿着_20260925-180512.png</code>；重名加 <code>_2</code>。位置在顶栏 <kbd>保存到</kbd> 改。</td></tr>
+    <tr><td>Key、存档、页面上的设置</td><td>程序自己的数据区（<code>%LOCALAPPDATA%\babaAI-imagegen</code>），和平时的浏览器互不影响。</td></tr>
+    <tr><td>exe 旁边的文件</td><td><code>settings.json</code>（保存位置）、<code>api.json</code>（端口）、<code>imagegen.log</code>（日志，出问题时看这个）。都可以删，删了下次自动重建。</td></tr>
+  </table>
+</section>
+
+<section id="update">
+  <h2><span>6</span>更新</h2>
+  <p>打开程序时自动查一次有没有新版。有的话顶栏右上角的版本号会亮：点开能看到每一版改了什么，点 <kbd>立即更新</kbd>，程序自己下载、换成新版、重新打开。<b>不点就不更新</b>，也不会弹窗催。</p>
+  <p>有路正在生成时，更新会先问你一声，免得打断。</p>
+</section>
+
+<section id="feedback">
+  <h2><span>7</span>反馈</h2>
+  <p>两个入口：出错的地方旁边的 <kbd>反馈这个问题</kbd>（自动带上是哪一路、报错原文、模型、参考图张数），和版本号浮层底部的 <kbd>反馈问题 / 提建议</kbd>。</p>
+  <ol class="steps">
+    <li>选「出问题了」或「想要新功能」，写清楚点了什么、看到了什么。版本、系统、最近 80 行日志会自动附上；不想附日志就取消勾选。</li>
+    <li>点 <kbd>提交反馈</kbd>，浏览器会打开 GitHub 的新建页，内容已经填好，点一下「Submit new issue」就交了（要有 GitHub 账号，没有的话注册一个，免费）。截图直接粘贴到描述框里。</li>
+    <li>修好后会在你那条反馈下回复是哪一版修好的；程序更新后，版本号那里也会提示「你反馈的 #编号 已修复」。</li>
+  </ol>
+  <div class="note">反馈是公开的。日志里没有 API Key，但会有你用的接口地址和报错原文。</div>
+</section>
+
+<section id="faq">
+  <h2><span>8</span>常见问题</h2>
+  <table>
+    <tr><th>现象</th><th>怎么办</th></tr>
+    <tr><td>「连接失败」，报错带 401</td><td>Key 不对，或者这把 Key 不是这家接口的。检查 Key 和接口地址是不是一对。</td></tr>
+    <tr><td>「连接失败」，报错带 404</td><td>接口地址不对。填接口的根地址（带不带 <code>/v1</code> 都行），别填到具体路径。</td></tr>
+    <tr><td>版本号旁边红色「缺少 Key」</td><td>顶栏 key 那里填上，再点 <kbd>获取模型</kbd>。</td></tr>
+    <tr><td>一打开就说端口被占</td><td>别的程序占了 7777 端口。改 exe 旁边 <code>api.json</code> 里的端口，重新打开。</td></tr>
+    <tr><td>再双击一次 exe</td><td>会再开一扇窗，两扇窗共用同一个后端，数据是同一份，不冲突。</td></tr>
+    <tr><td>窗口像浏览器页面 / 用 Edge 打开的</td><td>没装 WebView2 运行时，功能不受影响；装上后重新打开就是原生窗口。</td></tr>
+    <tr><td>想看程序在干什么</td><td>exe 旁边的 <code>imagegen.log</code>。里面没有 Key。</td></tr>
+  </table>
+</section>
+
+</div></main>
+<footer>Generater · 生图小霸王 · <a href="https://github.com/boombbo/generater">github.com/boombbo/generater</a></footer>
+</body>
+</html>
